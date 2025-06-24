@@ -6,6 +6,8 @@ import com.dgsw.jjabflix.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -17,5 +19,14 @@ public class PostService {
         entity.setContent(request.getContent());
         repository.save(entity);
         return "OK";
+    }
+
+    public String deletePost(Long id) {
+        Optional<PostEntity> entity = repository.findById(id);
+        if (entity.isPresent()) {
+            repository.deleteById(id);
+            return "deleted";
+        }
+        return "fail";
     }
 }
