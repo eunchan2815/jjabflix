@@ -6,7 +6,9 @@ import com.dgsw.jjabflix.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +30,14 @@ public class PostService {
             return "deleted";
         }
         return "fail";
+    }
+
+    public List<String> getPost() {
+       return repository.findAll().stream().map(PostEntity::getTitle).collect(Collectors.toList());
+    }
+
+    public PostEntity getPost(Long id) {
+        Optional<PostEntity> entity = repository.findById(id);
+        return entity.orElse(null);
     }
 }
