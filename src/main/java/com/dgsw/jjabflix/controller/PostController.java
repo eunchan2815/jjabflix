@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
     private final PostService service;
 
-//    @PostMapping("/upload")
-//    public String upload(@RequestBody UploadRequest request) {
-//
-//    }
+    @PostMapping("/upload")
+    public String upload(@RequestBody UploadRequest request) {
+        return service.uploadPost(request);
+    }
 }
