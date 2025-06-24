@@ -1,5 +1,6 @@
 package com.dgsw.jjabflix.controller;
 
+import com.dgsw.jjabflix.dto.PostResponse;
 import com.dgsw.jjabflix.entity.PostEntity;
 import lombok.RequiredArgsConstructor;
 import com.dgsw.jjabflix.dto.UploadRequest;
@@ -23,13 +24,18 @@ public class PostController {
         return service.deletePost(id);
     }
 
-    @GetMapping("/item")
-    public List<String> item() {
+    @GetMapping("/items")
+    public List<PostResponse> item() {
         return service.getPost();
     }
 
-    @GetMapping("/item/{id}")
+    @GetMapping("/items/{id}")
     public PostEntity findById(@PathVariable Long id) {
         return service.getPost(id);
+    }
+
+    @PatchMapping("/update")
+    public String update(@RequestBody PostEntity request) {
+        return service.updatePost(request);
     }
 }

@@ -1,5 +1,6 @@
 package com.dgsw.jjabflix.service;
 
+import com.dgsw.jjabflix.dto.PostResponse;
 import com.dgsw.jjabflix.dto.UploadRequest;
 import com.dgsw.jjabflix.entity.PostEntity;
 import com.dgsw.jjabflix.repository.PostRepository;
@@ -32,12 +33,28 @@ public class PostService {
         return "fail";
     }
 
-    public List<String> getPost() {
-       return repository.findAll().stream().map(PostEntity::getTitle).collect(Collectors.toList());
+    public List<PostResponse> getPost() {
+       return repository.findAll().stream().map(entity -> {
+           PostResponse response = new PostResponse();
+           response.setId(entity.getId());
+           response.setTitle(entity.getTitle());
+           return response;
+       }).collect(Collectors.toList());
     }
 
     public PostEntity getPost(Long id) {
         Optional<PostEntity> entity = repository.findById(id);
         return entity.orElse(null);
+    }
+
+    public String updatePost(PostEntity request) {
+        Optional<PostEntity> entity = repository.findById(request.getId());
+        if (entity.isPresent()) {
+            entity.get().setTitle(request.getTitle());
+            entity.get().setContent(request.getContent());
+            repository.save(entity.get());
+            return "OK";
+        }
+        return "fail";
     }
 }
